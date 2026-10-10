@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Asset AI Lab</title>
+</head>
+
+<body>
+
+<h1>Asset AI Lab</h1>
+
+<textarea
+id="question"
+rows="5"
+cols="80"
+placeholder="Ask a question about your assets...">
+</textarea>
+
+<br><br>
+
+<button onclick="askAI()">
+Ask AI
+</button>
+
+<hr>
+
+<div id="answer"></div>
+
+<script>
+
+const FUNCTION_URL =
+"https://cqtjoaiabwveewtyexdy.supabase.co/functions/v1/ask-ai";
+
+async function askAI() {
+
+    const question =
+        document.getElementById("question").value;
+
+    try {
+
+        document.getElementById("answer").innerHTML =
+            "Thinking...";
+
+        const response =
+            await fetch(
+              `${FUNCTION_URL}?question=${encodeURIComponent(question)}`
+            );
+
+        const result =
+            await response.json();
+
+        document.getElementById("answer").innerHTML =
+            result.answer;
+
+    } catch (err) {
+
+        document.getElementById("answer").innerHTML =
+            err;
+
+    }
+}
+
+</script>
+
+</body>
+</html>
